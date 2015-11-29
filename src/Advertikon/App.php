@@ -10,13 +10,12 @@
 
 namespace Advertikon;
 
-use Advertikon\Module;
 use Advertikon\Exception\InvalidArgument;
 
 /**
 * Module application class
 */
-class App{
+class App {
 
 	/**
 	* @var Object Advertikon\Module
@@ -74,9 +73,7 @@ class App{
 	* @throws Advertikon\Exception\Error If given not instance of Advertikon\Module
 	*/
 	static public function setModule( $module ) {
-		if( ! $module instanceof Module ) {
-			throw new InvalidArgument( 'Expect istance of Advertikon\Module' );
-		}
+		self::checkArgument( 'object' , $module , __METHOD__ );
 		self::$_module = $module;
 	}
 
@@ -120,6 +117,10 @@ class App{
 				if( is_scalar( $value ) ) {
 					return true;
 				}
+			case 'object' : 
+			if( is_object( $value ) ) {
+				return true;
+			}
 			default :
 				throw new InvalidArgument( sprintf( '%s: Invalid argument type to check against - %s' , __METHOD__ , $extType ) );
 			break;
